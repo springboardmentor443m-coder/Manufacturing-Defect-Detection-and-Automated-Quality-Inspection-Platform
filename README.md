@@ -1,0 +1,1 @@
+# Manufacturing-Defect-Detection-and-Automated-Quality-Inspection-Platform
