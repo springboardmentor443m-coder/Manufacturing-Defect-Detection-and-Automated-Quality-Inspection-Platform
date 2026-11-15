@@ -1,0 +1,20 @@
+# Python
+backend/venv/
+__pycache__/
+*.pyc
+.env
+
+# Node
+frontend/node_modules/
+frontend/.next/
+
+# Data and models (too big for git)
+backend/storage/
+backend/models/
+datasets/
+*.pt
+*.pth
+*.ckpt
+
+# Editor
+.vscode/
