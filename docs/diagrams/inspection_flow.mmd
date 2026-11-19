@@ -1,0 +1,62 @@
+sequenceDiagram
+    autonumber
+    actor Client as Quality Inspector / UI Client
+    participant API as FastAPI Gateway
+    participant Val as Pre-flight Validator
+    participant Pre as Image Preprocessor
+    participant Disp as Model Dispatcher
+    participant Model as ML Model (PatchCore / U-Net)
+    participant Post as Post-Processor
+    participant QC as QC Rule Engine
+    participant Store as Artifact Storage
+    participant DB as PostgreSQL Database
+
+    Client->>API: POST /inspections (image binary, category="bottle")
+    activate API
+
+    API->>Val: Validate MIME type, size <= 15MB, decode header
+    activate Val
+    alt Validation Failed (Corrupt / Bad Format)
+        Val-->>API: Error (ERR_CORRUPT_IMAGE / ERR_BAD_FORMAT)
+        API-->>Client: HTTP 422 Unprocessable Content
+    end
+    Val-->>API: Image Stream Valid
+    deactivate Val
+
+    API->>Pre: Standardize RGB, Resize, Normalize to Tensor (3, H, W)
+    activate Pre
+    Pre-->>API: Normalized Image Tensor
+    deactivate Pre
+
+    API->>Disp: Dispatch tensor with resolved ModelVersion
+    activate Disp
+    Disp->>Model: Execute forward pass (torch.inference_mode)
+    activate Model
+    Model-->>Disp: Raw Output (PatchCore: Anomaly Map & Score / UNet: Probability Map)
+    deactivate Model
+    Disp-->>API: Raw Inference Tensor Output
+    deactivate Disp
+
+    API->>Post: Process raw map (Gaussian filter, Binarize with Tau, Contours)
+    activate Post
+    Post->>Post: Compute Defect Contours, Bounding Boxes, Area %
+    Post->>Store: Write Image Artifacts (Overlay PNG, Mask PNG, Heatmap)
+    activate Store
+    Store-->>Post: Artifact Storage URIs
+    deactivate Store
+    Post-->>API: Defect Evidence (Score, Area %, BBoxes, Artifact URIs)
+    deactivate Post
+
+    API->>QC: Evaluate Defect Evidence against Category Rules
+    activate QC
+    Note over QC: Independent business logic evaluation<br/>Tau_pass, Tau_review, Max_Area
+    QC-->>API: Decision (PASS / REVIEW / REWORK / REJECT) + Justification
+    deactivate QC
+
+    API->>DB: Atomic Transaction (Insert inspection, results, bboxes, metrics)
+    activate DB
+    DB-->>API: Transaction Committed (inspection_id: UUID)
+    deactivate DB
+
+    API-->>Client: HTTP 201 Created (JSON inspection summary + disposition)
+    deactivate API

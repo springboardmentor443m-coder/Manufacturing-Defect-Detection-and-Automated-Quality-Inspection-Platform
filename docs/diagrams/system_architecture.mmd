@@ -1,0 +1,72 @@
+flowchart TD
+    subgraph ClientLayer["1. Client & Presentation Layer"]
+        UI["React Web Dashboard\n(Vite + TailwindCSS)"]
+        Operator["Quality Inspector / Line Supervisor"]
+        Operator -->|Uploads image / inspects results| UI
+    end
+
+    subgraph APILayer["2. API & Gateway Layer"]
+        Gateway["FastAPI Gateway / Application Server\n(Async HTTP, CORS, Auth, Validation)"]
+        UI -->|HTTP multipart/form-data & JSON REST| Gateway
+    end
+
+    subgraph PreprocessingLayer["3. Image Validation & Preprocessing"]
+        Validator["Pre-flight Validator\n(MIME, Header, Size, Format)"]
+        Preproc["Image Preprocessor\n(Resize, RGB Normalize, Tensor Transform)"]
+        Gateway -->|Raw image bytes| Validator
+        Validator -->|Valid image stream| Preproc
+    end
+
+    subgraph InferenceSubsystem["4. ML Inference & Model Subsystem"]
+        ModelRegistry["5. Model Registry & Config Store\n(Metadata, Weights, Coreset, Checkpoints)"]
+        Dispatcher["Inference Dispatcher\n(Hardware Routing: CUDA / CPU)"]
+        
+        subgraph ModelPipelines["Model Implementations"]
+            PatchCore["PatchCore Pipeline\n(WideResNet50 Backbone + Memory Bank Coreset)"]
+            UNet["U-Net Pipeline\n(Encoder-Decoder Defect Segmentation)"]
+        end
+
+        Preproc -->|Normalized Tensor (3, H, W)| Dispatcher
+        ModelRegistry -.->|Load weights / coreset| Dispatcher
+        Dispatcher -->|Route tensor| PatchCore
+        Dispatcher -->|Route tensor| UNet
+    end
+
+    subgraph PostprocessingLayer["6. Post-Processing & Geometry Engine"]
+        Postproc["Post-Processor\n(Gaussian Smoothing, Binarization, Contours)"]
+        OverlayGen["Overlay Generator\n(Jet Heatmap + Bounding Boxes + Original Composite)"]
+        
+        PatchCore -->|Raw Anomaly Map & Score| Postproc
+        UNet -->|Defect Probability Map| Postproc
+        Postproc -->|Binary Mask & Contours| OverlayGen
+    end
+
+    subgraph QCLayer["7. Quality Control (QC) Rule Engine"]
+        QCEngine["QC Rule Engine\n(Independent Decision Logic)"]
+        QCConfig["QC Rules Config Repository\n(Per-category Thresholds & Tolerances)"]
+        
+        Postproc -->|Defect Evidence: Score, Area, Counts| QCEngine
+        QCConfig -.->|Thresholds: Tau_pass, Tau_review, MaxArea| QCEngine
+        QCEngine -->|Disposition: PASS / REVIEW / REWORK / REJECT| Gateway
+    end
+
+    subgraph PersistenceSubsystem["Storage & Persistence Subsystem"]
+        subgraph DB["8. Inspection Persistence Layer"]
+            PostgreSQL[(PostgreSQL Relational DB\nInspections, Results, Predictions, Metrics)]
+        end
+        subgraph Storage["9. Artifact Storage Layer"]
+            FileStorage[("Local / Object Storage\nRaw Images, Masks, Overlays, Heatmaps")]
+        end
+    end
+
+    Gateway -->|Persist transaction| PostgreSQL
+    OverlayGen -->|Save visual artifacts| FileStorage
+    FileStorage -.->|Return artifact URIs| Gateway
+    PostgreSQL -.->|Query history & analytics| Gateway
+
+    subgraph ObservabilityLayer["10. Monitoring, Logging & Telemetry"]
+        Logging["Structured JSON Logger\n(Correlation ID, Latency, Errors)"]
+        Metrics["Prometheus Metrics Collector\n(/metrics endpoint)"]
+        Gateway -.->|Log context| Logging
+        Dispatcher -.->|Inference timing| Metrics
+    end

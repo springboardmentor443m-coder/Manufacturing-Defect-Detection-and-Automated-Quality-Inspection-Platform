@@ -1,0 +1,96 @@
+erDiagram
+    CATEGORIES ||--o{ MODEL_VERSIONS : "owns"
+    CATEGORIES ||--o{ MODEL_CONFIGURATIONS : "configures"
+    CATEGORIES ||--o{ INSPECTIONS : "classifies"
+    MODEL_VERSIONS ||--o{ MODEL_CONFIGURATIONS : "calibrated_with"
+    MODEL_VERSIONS ||--o{ INSPECTIONS : "evaluates"
+    INSPECTIONS ||--|| INSPECTION_RESULTS : "yields"
+    INSPECTIONS ||--o{ DEFECT_PREDICTIONS : "identifies"
+
+    CATEGORIES {
+        int id PK
+        string slug UK "e.g. bottle, metal_nut, tile"
+        string display_name "Human-friendly label"
+        string description "Category description"
+        boolean is_active "Active flag"
+        timestamptz created_at "Created timestamp"
+        timestamptz updated_at "Updated timestamp"
+    }
+
+    MODEL_VERSIONS {
+        uuid id PK
+        int category_id FK "FK to categories"
+        string model_name "e.g. patchcore, unet"
+        string version "SemVer string e.g. 1.0.0"
+        string architecture "Backbone e.g. wideresnet50"
+        string artifact_path "Filesystem URI to weights/coreset"
+        string sha256_hash "Artifact checksum"
+        jsonb benchmark_metrics "Test AUROC, IoU, Dice metrics"
+        boolean is_active "Current production flag"
+        timestamptz created_at "Registration timestamp"
+    }
+
+    MODEL_CONFIGURATIONS {
+        uuid id PK
+        uuid model_version_id FK "FK to model_versions"
+        int category_id FK "FK to categories"
+        int input_width "Input width in pixels"
+        int input_height "Input height in pixels"
+        float tau_binary "Pixel binarization threshold"
+        float tau_pass "QC Pass anomaly score boundary"
+        float tau_review "QC Review anomaly score boundary"
+        float tau_reject "QC Reject anomaly score boundary"
+        float max_rework_area_pct "Max area % eligible for rework"
+        int max_defect_count "Max permissible defect count"
+        jsonb extra_params "Additional hyperparameters"
+        boolean is_active "Active configuration flag"
+        timestamptz created_at "Configuration timestamp"
+    }
+
+    INSPECTIONS {
+        uuid id PK
+        int category_id FK "FK to categories"
+        uuid model_version_id FK "FK to model_versions"
+        string status "PENDING, COMPLETED, FAILED"
+        string client_batch_id "Optional client tracking batch ID"
+        string raw_image_path "Path to stored raw image"
+        string overlay_image_path "Path to visual overlay artifact"
+        string mask_image_path "Path to binary mask artifact"
+        string raw_image_sha256 "SHA-256 hash of raw input"
+        int image_width "Source image pixel width"
+        int image_height "Source image pixel height"
+        timestamptz created_at "Ingestion timestamp"
+        timestamptz completed_at "Completion timestamp"
+    }
+
+    INSPECTION_RESULTS {
+        uuid id PK
+        uuid inspection_id FK,UK "FK to inspections"
+        string disposition "PASS, REVIEW, REWORK, REJECT"
+        float anomaly_score "Continuous aggregate anomaly score"
+        float confidence_score "Model confidence in prediction"
+        int total_defect_area_px "Total defective pixel count"
+        float defect_area_ratio_pct "Defect area as % of image"
+        int defect_count "Number of distinct defect clusters"
+        jsonb explanation "Rule predicates triggering decision"
+        float inference_ms "Model execution duration in ms"
+        float postprocess_ms "Morphology & overlay duration in ms"
+        float total_latency_ms "End-to-end request duration in ms"
+        timestamptz created_at "Result creation timestamp"
+    }
+
+    DEFECT_PREDICTIONS {
+        uuid id PK
+        uuid inspection_id FK "FK to inspections"
+        int component_index "Index of detected defect cluster"
+        int bbox_xmin "Bounding box x minimum"
+        int bbox_ymin "Bounding box y minimum"
+        int bbox_xmax "Bounding box x maximum"
+        int bbox_ymax "Bounding box y maximum"
+        float centroid_x "Defect centroid x coordinate"
+        float centroid_y "Defect centroid y coordinate"
+        int pixel_area "Cluster pixel count"
+        float area_ratio_pct "Cluster area as % of image"
+        string severity "MINOR, MODERATE, CRITICAL"
+        timestamptz created_at "Prediction timestamp"
+    }

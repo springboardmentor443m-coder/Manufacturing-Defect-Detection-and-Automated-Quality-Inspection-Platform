@@ -1,0 +1,49 @@
+flowchart TD
+    subgraph DataIngestion["1. Dataset Preparation & Integrity"]
+        MVTec["MVTec AD Dataset\n(bottle, metal_nut, tile)"]
+        IntegrityCheck["Dataset Integrity & Hashing\n(SHA-256 Checksums, Resolution Verification)"]
+        ManifestGen["Manifest Generator\n(Generates manifest.json with labels & paths)"]
+        MVTec --> IntegrityCheck --> ManifestGen
+    end
+
+    subgraph SplitStrategy["2. Strict Data Splitting (No Data Leakage)"]
+        ManifestGen --> SplitEngine["Data Splitter Engine"]
+        SplitEngine -->|"Normal Images Only"| PatchCoreTrain["PatchCore Train Set\n(100% Defect-Free Normal)"]
+        SplitEngine -->|"Normal + Defect Masks"| UNetTrainVal["Supervised U-Net Set\n(Train & Val Splits)"]
+        SplitEngine -->|"Strictly Held-Out & Disjoint"| HeldOutTest["Held-Out Test Set\n(Normal + All Defect Subtypes)"]
+    end
+
+    subgraph PatchCorePipeline["3. PatchCore Training & Coreset Pipeline"]
+        PatchCoreTrain --> FeatExtract["Feature Extractor\n(Frozen WideResNet50 / ResNet50)"]
+        FeatExtract --> Patches["Patch Embedding Extraction\n(Layers 2 & 3 + Adaptive Avg Pool)"]
+        Patches --> MemoryBank["Global Memory Bank M\n(High-dimensional feature pool)"]
+        MemoryBank --> CoresetAlg["Greedy Coreset Subsampling\n(Minimax Facility Location, e.g., 10% or 1%)"]
+        CoresetAlg --> CoresetStore["Saved Coreset Memory Bank\n(coreset.pt + feature_dim)"]
+        CoresetStore --> CalibPC["Threshold Calibration\n(99th percentile of normal val / score curve)"]
+    end
+
+    subgraph UNetPipeline["4. Supervised U-Net Training Pipeline"]
+        UNetTrainVal --> Augment["Augmentation & Pairing\n(Image + Ground Truth Binary Mask)"]
+        Augment --> UNetArch["U-Net Model\n(Encoder-Decoder with Skip Connections)"]
+        UNetArch --> LossCalc["Loss Computation\n(L = BCE + Dice Loss / Focal Loss)"]
+        LossCalc --> Backprop["Optimizer & Backpropagation\n(AdamW / Cosine Annealing)"]
+        Backprop --> ValEval["Validation Loop & Metric Tracking\n(Pixel IoU, Dice F1 Score)"]
+        ValEval --> BestUNet["Best Checkpoint Save\n(unet_best.pt)"]
+    end
+
+    subgraph EvaluationBenchmark["5. Fair Evaluation & Benchmarking"]
+        HeldOutTest --> EvalPC["PatchCore Evaluation"]
+        HeldOutTest --> EvalUNet["U-Net Evaluation"]
+        CoresetStore --> EvalPC
+        CalibPC --> EvalPC
+        BestUNet --> EvalUNet
+        
+        EvalPC --> MetricsPC["PatchCore Metrics:\nImage-level AUROC\nPixel-level AUROC / PRO\nInference Latency"]
+        EvalUNet --> MetricsUNet["U-Net Metrics:\nPixel-level IoU / Dice\nPrecision / Recall\nInference Latency"]
+    end
+
+    subgraph RegistryPublish["6. Model Registry & Metadata Publish"]
+        MetricsPC --> Registry["Model Registry\n(Weights, Coreset, Config, Metrics JSON)"]
+        MetricsUNet --> Registry
+        Registry --> ProductionGate["Release Gate\n(Promote to Active Category Model)"]
+    end

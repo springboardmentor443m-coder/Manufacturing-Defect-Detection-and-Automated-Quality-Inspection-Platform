@@ -1,0 +1,84 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+*.secret
+*.pem
+*.key
+
+# IDEs & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# VisionInspect AI — Dataset & Large Binary Artifacts
+# Never commit raw dataset images, masks, model weights, or archives to git
+data/raw/
+data/processed/
+data/splits/
+data/reports/*.csv
+data/reports/*.json
+data/visualizations/*.png
+data/visualizations/*.jpg
+artifacts/
+*.tar.xz
+*.tar.gz
+*.tar
+*.zip
+*.pt
+*.pth
+*.onnx
+*.bin
