@@ -1,0 +1,13 @@
+{
+  "include": [
+    "backend",
+    "ml"
+  ],
+  "extraPaths": [
+    "backend",
+    "C:\\pylib",
+    "C:\\Users\\SOMASHEKAR\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\site-packages"
+  ],
+  "pythonVersion": "3.11",
+  "pythonPlatform": "Windows"
+}

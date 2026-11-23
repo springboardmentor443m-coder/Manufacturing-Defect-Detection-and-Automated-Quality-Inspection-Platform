@@ -1,0 +1,24 @@
+{
+  "seed": 42,
+  "image_size": 256,
+  "encoder": "resnet18",
+  "batch_size": 8,
+  "epochs_requested": 15,
+  "epochs_trained": 12,
+  "lr": 0.0001,
+  "patience": 5,
+  "amp_enabled": true,
+  "device": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+  "total_vram_mib": 6143.5,
+  "peak_vram_mib": 602.1,
+  "selection_rule": "score = dice_def - 0.5 * fp_rate_normal",
+  "selected_threshold": 0.5,
+  "sampling_ratio": "Class counts normal=178, defective=39. Balanced ~50:50 per batch.",
+  "torch_version": "2.14.1+cu126",
+  "smp_version": "0.6.0",
+  "timm_version": "1.0.31",
+  "manifest_hashes": {
+    "train_md5": "04c36b47352066cc0e6d6d7a4cc35208",
+    "val_md5": "3b219529b4682628aa0d1619dc5607a0"
+  }
+}

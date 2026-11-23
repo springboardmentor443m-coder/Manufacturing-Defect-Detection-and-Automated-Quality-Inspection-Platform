@@ -1,0 +1,2 @@
+selected_threshold,dice_defective,iou_defective,fp_rate_normal,mean_pos_normal,overall_positive_fraction
+0.5,0.2865,0.1672,0.0,0.0,0.011585

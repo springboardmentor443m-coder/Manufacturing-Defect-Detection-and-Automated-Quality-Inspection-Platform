@@ -1,0 +1,5 @@
+Defect Type,Images,Mean Dice,Mean IoU,Images Dice=0,FP Rate
+broken_large,4,0.6541,0.5197,0,N/A
+broken_small,4,0.4851,0.3465,0,N/A
+contamination,4,0.371,0.3136,2,N/A
+good,31,N/A,N/A,N/A,0.0000

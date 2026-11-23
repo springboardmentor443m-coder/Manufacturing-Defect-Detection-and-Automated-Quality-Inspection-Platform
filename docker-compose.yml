@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: visioninspect_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-vision_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-vision_pass123}
+      POSTGRES_DB: ${POSTGRES_DB:-visioninspect_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-vision_admin} -d ${POSTGRES_DB:-visioninspect_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+    driver: local

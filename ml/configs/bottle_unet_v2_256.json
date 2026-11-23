@@ -1,0 +1,23 @@
+{
+  "image_size": 256,
+  "encoder": "resnet34",
+  "batch_size": 8,
+  "fallback_batch_size": 4,
+  "epochs": 100,
+  "min_epochs": 30,
+  "patience": 20,
+  "lr": 3e-4,
+  "weight_decay": 1e-4,
+  "warmup_epochs": 3,
+  "seeds": [42, 43, 44],
+  "loss_bce_weight": 0.3,
+  "loss_dice_weight": 0.5,
+  "loss_focal_weight": 0.2,
+  "tversky_beta": 0.7,
+  "border_margin_px": 4,
+  "min_component_area_start": 150,
+  "amp": true,
+  "tta": true,
+  "out_dir": "ml/outputs/bottle/unet_v2",
+  "version": "2.0-256"
+}

@@ -1,0 +1,28 @@
+[
+  {
+    "name": "bottle_unet",
+    "version": "1.0",
+    "category": "bottle",
+    "protocol": "Protocol B custom split",
+    "image_size": 256,
+    "encoder": "resnet18",
+    "batch_size": 8,
+    "amp_enabled": true,
+    "device_gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+    "manifest_hash": "04c36b47352066cc0e6d6d7a4cc35208",
+    "selected_threshold": 0.5,
+    "validation_metrics": {
+      "dice_defective": 0.2865,
+      "iou_defective": 0.1672,
+      "fp_rate_normal": 0.0,
+      "overall_positive_fraction": 0.011585
+    },
+    "artifacts": {
+      "checkpoint": "C:\\Users\\SOMASHEKAR\\OneDrive\\Desktop\\Vision-InspectAI\\ml\\outputs\\bottle\\unet\\best.ckpt",
+      "config": "C:\\Users\\SOMASHEKAR\\OneDrive\\Desktop\\Vision-InspectAI\\ml\\outputs\\bottle\\unet\\config.json",
+      "learning_curve": "C:\\Users\\SOMASHEKAR\\OneDrive\\Desktop\\Vision-InspectAI\\ml\\outputs\\bottle\\unet\\learning_curve.png",
+      "gallery": "C:\\Users\\SOMASHEKAR\\OneDrive\\Desktop\\Vision-InspectAI\\ml\\outputs\\bottle\\unet\\gallery\\validation_gallery.png",
+      "val_results": "C:\\Users\\SOMASHEKAR\\OneDrive\\Desktop\\Vision-InspectAI\\ml\\outputs\\bottle\\unet\\val_results.csv"
+    }
+  }
+]

@@ -1,0 +1,13 @@
+Filename,Type,True Area,Pred Area,Pred/True,Precision,Recall,Centroid Dist,Max P(in),Max P(out),Verdict
+012.png,broken_large,5689,4563,0.8,0.8989999890327454,0.721,20.3,0.997,0.959,partly right
+015.png,broken_large,6117,4627,0.76,0.9129999876022339,0.691,14.2,0.991,0.95,partly right
+010.png,broken_large,7291,8434,1.16,0.7009999752044678,0.811,14.7,0.995,0.981,partly right
+011.png,broken_large,4898,1049,0.21,0.7870000004768372,0.169,32.0,0.997,0.991,"right place, too small"
+004.png,broken_small,2105,2112,1.0,0.734000027179718,0.736,15.2,0.997,0.986,partly right
+007.png,broken_small,1370,822,0.6,0.796999990940094,0.478,5.6,0.943,0.876,partly right
+012.png,broken_small,5117,1753,0.34,0.9039999842643738,0.31,23.0,0.999,0.984,"right place, too small"
+005.png,broken_small,988,78,0.08,1.0,0.079,7.8,0.739,0.461,"right place, too small"
+000.png,contamination,4740,1935,0.41,0.9509999752044678,0.388,23.2,0.986,0.88,"right place, too small"
+005.png,contamination,8062,7276,0.9,0.9829999804496765,0.887,2.5,0.992,0.959,partly right
+009.png,contamination,9048,0,0.0,0.0,0.0,-,0.327,0.462,empty prediction
+002.png,contamination,1201,0,0.0,0.0,0.0,-,0.251,0.461,empty prediction

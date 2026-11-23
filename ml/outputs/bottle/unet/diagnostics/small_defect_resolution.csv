@@ -1,0 +1,13 @@
+Filename,Type,Area 900x900,Area 256x256,Ratio (256/900),Status
+012.png,broken_large,70457,5689,0.0807,OK
+015.png,broken_large,75659,6117,0.0808,OK
+010.png,broken_large,90028,7291,0.081,OK
+011.png,broken_large,60540,4898,0.0809,OK
+004.png,broken_small,25926,2105,0.0812,OK
+007.png,broken_small,17046,1370,0.0804,OK
+012.png,broken_small,63191,5117,0.081,OK
+005.png,broken_small,12266,988,0.0805,OK
+000.png,contamination,58708,4740,0.0807,OK
+005.png,contamination,99554,8062,0.081,OK
+009.png,contamination,111640,9048,0.081,OK
+002.png,contamination,14913,1201,0.0805,OK
