@@ -24,5 +24,41 @@
       "gallery": "C:\\Users\\SOMASHEKAR\\OneDrive\\Desktop\\Vision-InspectAI\\ml\\outputs\\bottle\\unet\\gallery\\validation_gallery.png",
       "val_results": "C:\\Users\\SOMASHEKAR\\OneDrive\\Desktop\\Vision-InspectAI\\ml\\outputs\\bottle\\unet\\val_results.csv"
     }
+  },
+  {
+    "name": "bottle_unet_v2",
+    "version": "2.0-256",
+    "category": "bottle",
+    "protocol": "Protocol B custom split",
+    "image_size": 256,
+    "encoder": "resnet34",
+    "batch_size": 8,
+    "amp_enabled": true,
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "best_seed": 44,
+    "selected_threshold": 0.3,
+    "min_component_area": 100,
+    "border_margin_px": 4,
+    "validation_metrics": {
+      "mean_dice_defective": 0.8669429515175783,
+      "std_dice_defective": 0.05571540968593153,
+      "mean_iou_defective": 0.7726046080549392,
+      "std_iou_defective": 0.08171698720931646,
+      "mean_fp_rate_normal": 0.0,
+      "std_fp_rate_normal": 0.0
+    },
+    "manifest_hashes": {
+      "train_sha256": "a1dac10768e1aff787f27597b902bb0f04cdef0e9d93cc3d64532ac4f91f09f3",
+      "val_sha256": "c3c104b56591ee14fffca05bd51479c48e703ad775eae78b5f24f9a8fc5b8cff",
+      "test_sha256": "465f01f17d8b79b5d44f3c991c82733559db087ad16e7f0a60dfc8085f3d334e"
+    },
+    "artifacts": {
+      "best_checkpoint": "C:\\Users\\SOMASHEKAR\\OneDrive\\Desktop\\Vision-InspectAI\\ml\\outputs\\bottle\\unet_v2\\seed_44\\best.ckpt",
+      "summary_directory": "C:\\Users\\SOMASHEKAR\\OneDrive\\Desktop\\Vision-InspectAI\\ml\\outputs\\bottle\\unet_v2"
+    }
   }
 ]
