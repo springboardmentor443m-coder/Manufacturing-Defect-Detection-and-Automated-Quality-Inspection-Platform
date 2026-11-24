@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionInspect AI | Quality Inspection</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">V</div>
+            <div>
+                <h2>VISIONINSPECT</h2>
+                <span>ARTIFICIAL INTELLIGENCE</span>
+            </div>
+        </div>
+
+        <p class="nav-label">WORKSPACE</p>
+        <nav>
+            <a class="active" href="#dashboard">Dashboard</a>
+            <a href="#inspection">New Inspection</a>
+            <a href="#results">Inspection Results</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="online-dot"></div>
+            <span>Inspection Engine</span>
+            <strong>ONLINE</strong>
+        </div>
+    </aside>
+
+    <main class="main-content" id="dashboard">
+
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">MANUFACTURING INTELLIGENCE / OVERVIEW</p>
+                <h1>Quality Inspection Dashboard</h1>
+                <p class="subtitle">Automated visual defect detection and quality analysis.</p>
+            </div>
+            <div class="system-pill">
+                <span class="online-dot"></span>
+                System Ready
+            </div>
+        </header>
+
+        <section class="stat-grid">
+            <article class="stat-card">
+                <p>DETECTION ENGINE</p>
+                <h2>PATCH AI</h2>
+                <span>Isolation Forest anomaly detection</span>
+            </article>
+
+            <article class="stat-card">
+                <p>IMAGE PROCESSING</p>
+                <h2>256 × 256</h2>
+                <span>Standardized input resolution</span>
+            </article>
+
+            <article class="stat-card">
+                <p>PATCH ANALYSIS</p>
+                <h2>256</h2>
+                <span>Image regions analyzed per inspection</span>
+            </article>
+        </section>
+
+        <section class="content-grid">
+
+            <article class="panel upload-panel" id="inspection">
+                <div class="panel-heading">
+                    <div>
+                        <p class="eyebrow">STEP 01 / INPUT</p>
+                        <h2>Product Image Inspection</h2>
+                    </div>
+                    <span class="step-number">01</span>
+                </div>
+
+                <label for="imageInput" class="upload-area" id="uploadArea">
+                    <div class="upload-symbol">↑</div>
+                    <h3>Upload product image</h3>
+                    <p>Drag and drop your image here or browse files</p>
+                    <span>PNG · JPG · JPEG</span>
+                </label>
+
+                <input type="file" id="imageInput" accept="image/png,image/jpeg" hidden>
+
+                <div class="preview-container" id="previewContainer" hidden>
+                    <img id="previewImage" alt="Selected product">
+                    <p id="fileName"></p>
+                    <button type="button" class="remove-button" id="removeButton">Remove image</button>
+                </div>
+
+                <button type="button" class="primary-button" id="inspectButton" disabled>
+                    Run AI Inspection <span>→</span>
+                </button>
+
+                <p class="feedback" id="feedback">Upload an image to begin inspection.</p>
+            </article>
+
+            <article class="panel result-panel" id="results">
+                <div class="panel-heading">
+                    <div>
+                        <p class="eyebrow">STEP 02 / ANALYSIS</p>
+                        <h2>Inspection Decision</h2>
+                    </div>
+                    <span class="step-number">02</span>
+                </div>
+
+                <div class="empty-result" id="emptyResult">
+                    <div class="empty-symbol">⌕</div>
+                    <h3>Awaiting Inspection</h3>
+                    <p>Your inspection decision and anomaly measurements will appear here.</p>
+                </div>
+
+                <div id="resultDetails" hidden>
+                    <div class="decision-card" id="decisionCard">
+                        <span>AI INSPECTION STATUS</span>
+                        <h2 id="decisionStatus">REVIEW</h2>
+                        <p id="decisionMessage"></p>
+                    </div>
+
+                    <div class="metric-grid">
+                        <div class="metric">
+                            <span>Anomalous Patches</span>
+                            <strong id="anomalousPatches">--</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Total Patches</span>
+                            <strong id="totalPatches">--</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Anomaly Ratio</span>
+                            <strong id="anomalyRatio">--</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Decision Threshold</span>
+                            <strong id="decisionThreshold">--</strong>
+                        </div>
+                    </div>
+
+                    <p class="inspection-id-label">INSPECTION IDENTIFIER</p>
+                    <code id="inspectionId">--</code>
+                </div>
+            </article>
+
+        </section>
+
+        <section class="panel visualization-panel" id="visualizationPanel" hidden>
+            <div class="panel-heading">
+                <div>
+                    <p class="eyebrow">STEP 03 / VISUALIZATION</p>
+                    <h2>Anomaly Visualization</h2>
+                </div>
+                <span class="step-number">03</span>
+            </div>
+
+            <div class="visual-grid">
+                <div>
+                    <h3>Original Image</h3>
+                    <img id="originalImage" alt="Original image">
+                </div>
+                <div>
+                    <h3>Anomaly Heatmap</h3>
+                    <img id="heatmapImage" alt="Anomaly heatmap">
+                </div>
+                <div>
+                    <h3>Detection Overlay</h3>
+                    <img id="overlayImage" alt="Detection overlay">
+                </div>
+            </div>
+
+            <p class="visual-note">Heatmap colours represent relative anomaly scores. They are not verified defect segmentation masks or calibrated probabilities.</p>
+        </section>
+
+        <footer>
+            VISIONINSPECT AI · AI-POWERED MANUFACTURING QUALITY INSPECTION
+        </footer>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

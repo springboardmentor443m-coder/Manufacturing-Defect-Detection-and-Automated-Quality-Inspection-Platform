@@ -1,4 +1,4 @@
-
+﻿
 import uuid
 import hashlib
 import cv2
@@ -8,6 +8,7 @@ import numpy as np
 from pathlib import Path
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 
 # --------------------------------------------------
@@ -62,6 +63,12 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+# Serve generated inspection images
+app.mount(
+    "/artifacts",
+    StaticFiles(directory=BASE_DIR / "artifacts"),
+    name="artifacts"
 )
 
 
@@ -367,3 +374,4 @@ if __name__ == "__main__":
         port=8000,
         reload=True
     )
+
