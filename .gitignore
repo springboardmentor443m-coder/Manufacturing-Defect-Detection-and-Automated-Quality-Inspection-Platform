@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.env
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+
+# Datasets
+data/
+datasets/
+
+# Deep learning model weights
+*.pt
+*.pth
+*.ckpt
+
+# Generated outputs
+artifacts/*
+!artifacts/**/.gitkeep
+
+# Include the models directory
+!artifacts/models/
+artifacts/models/*
+
+# Include the trained patch anomaly model required by backend
+!artifacts/models/bottle_patch_anomaly_model.joblib
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.vscode/
