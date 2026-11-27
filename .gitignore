@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+*.db
+backend/storage/
+backend/.env
+
+# Datasets (MVTec AD is ~5 GB and licensed separately)
+data/
+datasets/
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.env*
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+frontend-dev.log
+backend-server.log
+backend-server.err.log
